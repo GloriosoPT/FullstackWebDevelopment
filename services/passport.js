@@ -30,9 +30,8 @@ passport.use('oidc',
             userInfoURL: keys.oktaBaseUrl + '/oauth2/default/v1/userinfo',
             clientID: keys.oktaClientID,
             clientSecret: keys.oktaClientSecret,
-            callbackURL: '/authorization-code/callback',
-            scope: 'openid profile email offline_access',
-            proxy: true
+            callbackURL: keys.appBaseUrl + '/authorization-code/callback',
+            scope: 'openid profile email offline_access'
         },
         (issuer, sub, profile, accessToken, refreshToken, done) => {
             console.log('issuer: ', issuer);
