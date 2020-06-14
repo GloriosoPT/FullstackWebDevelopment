@@ -1,9 +1,34 @@
 const express = require('express');
+const session = require('express-session');
+const cookieSession = require('cookie-session');
 const app = express();
+const passport = require('passport');
+const mongoose = require('mongoose');
+const keys = require('./config/keys');
+require('./models/User')
+require('./services/passport')
 
-app.get('/', (req, res) => {
-    res.send({ bye: 'buddy'});
-});
+mongoose.connect(keys.mongoURI);
+
+/*app.use(session({
+    secret: 'MyVoiceIsMyPassportVerifyMe',
+    resave: false,
+    saveUninitialized: true
+}));*/
+
+app.use(
+    cookieSession({
+        maxAge: 30 * 24 * 60 * 60 * 1000,
+        keys: [keys.cookieKey]
+    })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+require('./routes/authRoutes')(app);
+require('./routes/routes')(app);
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT);
+app.listen(PORT, () => console.log(`App listening on port ${PORT}!`));
+
