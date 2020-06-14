@@ -24,14 +24,15 @@ passport.deserializeUser((id, done) => {
 passport.use('oidc',
     new OktaStrategy(
         {
-            issuer: 'https://fsantos.oktapreview.com/oauth2/default',
-            authorizationURL: 'https://fsantos.oktapreview.com/oauth2/default/v1/authorize',
-            tokenURL: 'https://fsantos.oktapreview.com/oauth2/default/v1/token',
-            userInfoURL: 'https://fsantos.oktapreview.com/oauth2/default/v1/userinfo',
+            issuer: keys.oktaBaseUrl + '/oauth2/default',
+            authorizationURL: keys.oktaBaseUrl +'/oauth2/default/v1/authorize',
+            tokenURL: keys.oktaBaseUrl + '/oauth2/default/v1/token',
+            userInfoURL: keys.oktaBaseUrl + '/oauth2/default/v1/userinfo',
             clientID: keys.oktaClientID,
             clientSecret: keys.oktaClientSecret,
             callbackURL: '/authorization-code/callback',
-            scope: 'openid profile email offline_access'
+            scope: 'openid profile email offline_access',
+            proxy: true
         },
         (issuer, sub, profile, accessToken, refreshToken, done) => {
             console.log('issuer: ', issuer);
