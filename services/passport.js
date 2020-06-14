@@ -30,7 +30,7 @@ passport.use('oidc',
             userInfoURL: 'https://fsantos.oktapreview.com/oauth2/default/v1/userinfo',
             clientID: keys.oktaClientID,
             clientSecret: keys.oktaClientSecret,
-            callbackURL: 'http://localhost:5000/authorization-code/callback',
+            callbackURL: '/authorization-code/callback',
             scope: 'openid profile email offline_access'
         },
         (issuer, sub, profile, accessToken, refreshToken, done) => {
