@@ -2,13 +2,22 @@ const passport = require('passport');
 
 module.exports = (app) => {
 
-    app.use('/login', passport.authenticate('oidc'));
+    app.get('/login', passport.authenticate('oidc'));
 
-    app.use('/authorization-code/callback',
-        passport.authenticate('oidc', { failureRedirect: '/error' }),
+    app.get('/authorization-code/callback',
+        passport.authenticate('oidc'),
         (req, res) => {
-            res.redirect('/');
+            res.redirect('/surveys');
         }
     );
+
+    app.get('/api/logout', (req, res) => {
+        req.logout();
+        res.redirect('/');
+    });
+
+    app.get('/api/current_user', (req, res) => {
+        res.send(req.user);
+    });
 
 };
